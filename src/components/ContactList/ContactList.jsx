@@ -1,24 +1,41 @@
+import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { deleteContact } from 'redux/contactsSlice';
+// import { deleteContact } from 'redux/contactsSlice';
 import PropTypes from 'prop-types';
 import { FormContainer, Button, ListItem } from './ContactList.styled';
+import { fetchContacts } from 'redux/operations';
+import { getContacts, getFilterValue } from 'redux/selectors';
 
 export const ContactList = () => {
-  const items = useSelector(state => state.contacts.items);
-  const filterValue = useSelector(state => state.contacts.filter);
+  // const items = useSelector(state => state.contacts.items);
+  const { items, isLoading, error } = useSelector(getContacts);
+  const { filter } = useSelector(getFilterValue);
+
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    dispatch(fetchContacts());
+  }, [dispatch]);
+
   const filteredContacts = items.filter(contact =>
-    contact.name.toLowerCase().includes(filterValue.toLowerCase())
+    contact.name.toLowerCase().includes(filter.toLowerCase())
   );
 
   return (
     <FormContainer>
+      {isLoading && <b>Loading tasks...</b>}
+      {error && <b>{error}</b>}
       <ul>
-        {filteredContacts.map(({ id, name, number }) => (
+        {filteredContacts.map(({ id, name, phone }) => (
           <ListItem key={id}>
-            {name}: {number}
-            <Button onClick={() => dispatch(deleteContact(id))}>Delete</Button>
+            {name}: {phone}
+            <Button
+              onClick={() =>
+                /* dispatch(deleteContact(id)) */ console.log('deleteContact')
+              }
+            >
+              Delete
+            </Button>
           </ListItem>
         ))}
       </ul>

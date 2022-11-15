@@ -1,6 +1,6 @@
 import { nanoid } from '@reduxjs/toolkit';
 import { useDispatch } from 'react-redux';
-import { createContact } from 'redux/contactsSlice';
+// import { createContact } from 'redux/contactsSlice';
 import { FormContainer, InputForm, Button } from './ContactForm.styled';
 
 export const ContactForm = () => {
@@ -9,13 +9,13 @@ export const ContactForm = () => {
   const handleSubmit = e => {
     e.preventDefault();
     const form = e.currentTarget;
-    dispatch(
-      createContact({
-        id: nanoid(),
-        name: form.elements.name.value,
-        number: form.elements.number.value,
-      })
-    );
+    // dispatch(
+    //   createContact({
+    //     id: nanoid(),
+    //     name: form.elements.name.value,
+    //     number: form.elements.number.value,
+    //   })
+    // );
     form.reset();
   };
   return (
