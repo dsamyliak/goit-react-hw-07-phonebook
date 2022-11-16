@@ -1,10 +1,10 @@
-import { nanoid } from '@reduxjs/toolkit';
-import { useDispatch } from 'react-redux';
+// import { nanoid } from '@reduxjs/toolkit';
+// import { useDispatch } from 'react-redux';
 // import { createContact } from 'redux/contactsSlice';
 import { FormContainer, InputForm, Button } from './ContactForm.styled';
 
 export const ContactForm = () => {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
   const handleSubmit = e => {
     e.preventDefault();
