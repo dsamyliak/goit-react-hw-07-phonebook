@@ -1,21 +1,21 @@
-import { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-// import { deleteContact } from 'redux/contactsSlice';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import { FormContainer, Button, ListItem } from './ContactList.styled';
-import { fetchContacts } from 'redux/operations';
-import { getContacts, getFilterValue } from 'redux/selectors';
+import { FormContainer, ListItem } from './ContactList.styled';
+import {
+  getContacts,
+  getError,
+  getIsLoading,
+  getFilterValue,
+} from 'redux/selectors';
+import { Contact } from 'components/Contact/Contact';
 
 export const ContactList = () => {
   // const items = useSelector(state => state.contacts.items);
-  const { items, isLoading, error } = useSelector(getContacts);
+  const items = useSelector(getContacts);
+  const isLoading = useSelector(getIsLoading);
+  const error = useSelector(getError);
+
   const { filter } = useSelector(getFilterValue);
-
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(fetchContacts());
-  }, [dispatch]);
 
   const filteredContacts = items.filter(contact =>
     contact.name.toLowerCase().includes(filter.toLowerCase())
@@ -23,19 +23,18 @@ export const ContactList = () => {
 
   return (
     <FormContainer>
-      {isLoading && <b>Loading tasks...</b>}
+      {isLoading && <b>Loading contacts...</b>}
       {error && <b>{error}</b>}
-      <ul>
-        {filteredContacts.map(({ id, name, phone }) => (
-          <ListItem key={id}>
-            {name}: {phone}
-            <Button
-              onClick={() =>
-                /* dispatch(deleteContact(id)) */ console.log('deleteContact')
-              }
-            >
+      <ul style={{ padding: '0px', marginLeft: '10px' }}>
+        {filteredContacts.map(contact => (
+          <ListItem key={contact.id}>
+            {/* <ContactTextInfo>
+              {name}: {phone}
+            </ContactTextInfo>
+            <Button onClick={console.log(id[0], name[0], phone[0])}>
               Delete
-            </Button>
+            </Button> */}
+            <Contact contact={contact} />
           </ListItem>
         ))}
       </ul>
