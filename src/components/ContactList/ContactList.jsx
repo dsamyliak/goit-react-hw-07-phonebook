@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import { FormContainer, ListItem } from './ContactList.styled';
+import { BlockContainer, ListItem } from './ContactList.styled';
 import {
   getContacts,
   getError,
@@ -8,9 +8,20 @@ import {
   getFilterValue,
 } from 'redux/selectors';
 import { Contact } from 'components/Contact/Contact';
+import { useDispatch } from 'react-redux';
+import { useEffect } from 'react';
+import { fetchContacts } from 'redux/operations';
+
+
 
 export const ContactList = () => {
-  // const items = useSelector(state => state.contacts.items);
+  const dispatch = useDispatch();
+  
+  useEffect(() => {
+    dispatch(fetchContacts());
+  }, [dispatch]);
+
+
   const items = useSelector(getContacts);
   const isLoading = useSelector(getIsLoading);
   const error = useSelector(getError);
@@ -20,25 +31,21 @@ export const ContactList = () => {
   const filteredContacts = items.filter(contact =>
     contact.name.toLowerCase().includes(filter.toLowerCase())
   );
+  
+  
 
   return (
-    <FormContainer>
+    <BlockContainer>
       {isLoading && <b>Loading contacts...</b>}
       {error && <b>{error}</b>}
       <ul style={{ padding: '0px', marginLeft: '10px' }}>
         {filteredContacts.map(contact => (
           <ListItem key={contact.id}>
-            {/* <ContactTextInfo>
-              {name}: {phone}
-            </ContactTextInfo>
-            <Button onClick={console.log(id[0], name[0], phone[0])}>
-              Delete
-            </Button> */}
             <Contact contact={contact} />
           </ListItem>
         ))}
       </ul>
-    </FormContainer>
+    </BlockContainer>
   );
 };
 

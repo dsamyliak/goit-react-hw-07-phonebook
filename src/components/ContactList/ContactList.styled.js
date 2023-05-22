@@ -6,6 +6,12 @@ export const FormContainer = styled.form`
   padding: 0 16px;
 `;
 
+export const BlockContainer = styled.div`
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 16px;
+`;
+
 export const InputForm = styled.input`
   margin-left: 10px;
   padding: 8px 16px;
